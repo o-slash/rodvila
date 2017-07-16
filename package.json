@@ -9,8 +9,14 @@
     "markdown-it": "^8.3.1",
     "officegen": "^0.4.5"
   },
-  "devDependencies": {},
-  "scripts": {},
+  "devDependencies": {
+    "jsdoc": "^3.5.3",
+    "mocha": "^3.4.2"
+  },
+  "scripts": {
+    "test": "mocha",
+    "docs": "jsdoc -r index.js -d ./docs/"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/o-slash/rodvila.git"
