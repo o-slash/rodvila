@@ -7,7 +7,6 @@
 var parseCli = module.exports.parseCli = function (argv) {
   let version = require('./package.json').version;
   let Command = require('commander').Command;
-
   let command = new Command()
     .version(version)
     .arguments('<SOURCE> [OTHERS...]')
@@ -40,32 +39,36 @@ var generate = module.exports.generate = function (command) {
   };
   const lexer = new marked.Lexer(options);
 
-  let doc = officegen(command.outputFormat);
-  let out = fs.createWriteStream(command.outputFile);
-
   readFile(command.args[0])
     .then(content => lexer.lex(content))
-    .catch(err => console.error(err))
-    .then(tokens => tokens.forEach(elem => {
-      switch (elem.type) {
-        case 'heading':
-          {
-            let pObj = doc.createP();
-            pObj.addText(elem.text, {
-              bold: true,
-              font_face: 'Arial',
-              font_size: 40
-            });
-          }
+    .then(tokens => {
+      let Renderer;
+      let format;
+
+      switch (command.outputFormat) {
+        case 'pptx':
+          format = 'pptx';
+          Renderer = require('./lib/pptx-renderer.js');
           break;
+
         default:
-          {
-            let pObj = doc.createP();
-            pObj.addText(elem.text);
-          }
-          break;
+          format = 'docx';
+          Renderer = require('./lib/docx-renderer.js');
       }
-    }))
-    .then(response => doc.generate(out));
+
+      let doc = officegen(format);
+      let renderer = new Renderer(doc);
+
+      tokens.forEach(elem => {
+        renderer.render(elem);
+      });
+
+      return doc;
+    })
+    .then(doc => {
+      let out = fs.createWriteStream(command.outputFile);
+      doc.generate(out);
+    })
+    .catch(err => console.error(err));
 
 };
