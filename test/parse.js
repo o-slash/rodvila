@@ -1,8 +1,9 @@
 var assert = require('assert');
+var rodvila = require('../');
 
 describe('CLI Parsing', function () {
-  var cmdWithoutArgs = require('../').parseCli(['/usr/bin/node', '../bin/cli.js']);
-  var cmdWithArgs = require('../').parseCli(['/usr/bin/node', '../bin/cli.js', 'source1.md', 'source2.md', '-o', 'dest.pptx', '-f', 'pptx']);
+  var cmdWithoutArgs = rodvila.parseCli(['/usr/bin/node', '../bin/cli.js']);
+  var cmdWithArgs = rodvila.parseCli(['/usr/bin/node', '../bin/cli.js', 'source1.md', 'source2.md', '-o', 'dest.pptx', '-f', 'pptx']);
   
   describe('with no arguments', function () {
     it('should have no source files', function (done) {
