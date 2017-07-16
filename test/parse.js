@@ -20,7 +20,6 @@ describe('CLI Parsing', function () {
     it('should have docx as output format', function (done) {
       assert.equal('docx', cmdWithoutArgs.outputFormat);
       done();
-    var cmdWithArgs = require('../').parseCli(['/usr/bin/node', '../bin/cli.js', 'source1.md', 'source2.md', '-o', 'dest.pptx', '-f', 'pptx']);
 
     });
   });
