@@ -1,0 +1,35 @@
+{
+  "name": "rodvila",
+  "version": "1.0.0-alpha.1",
+  "description": "Generate Open Office XML documents (OOXML) form Markdown sources",
+  "main": "index.js",
+  "dependencies": {
+    "commander": "^2.11.0",
+    "markdown-it": "^8.3.1",
+    "officegen": "^0.4.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/o-slash/rodvila.git"
+  },
+  "keywords": [
+    "markdown",
+    "md",
+    "ooxml",
+    "pptx",
+    "docx",
+    "word",
+    "powerpoint",
+    "converter",
+    "generator"
+  ],
+  "author": "Marco De Angelis <marco.deangelis@mulgo.org>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/o-slash/rodvila/issues"
+  },
+  "homepage": "https://github.com/o-slash/rodvila#readme"
+}
