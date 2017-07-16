@@ -4,12 +4,12 @@
 
 var rodvila = require('../');
 
-let cli = rodvila.parse(process.argv);
+let options = rodvila.parseCli(process.argv);
 
-if (typeof cli.sources === 'undefined' || cli.sources.length < 1) {
+if (typeof options.sources === 'undefined' || options.sources.length < 1) {
   console.error('No source file given!');
-  console.error(cli.helpInformation());
+  console.error(options.parser.helpInformation());
   process.exit(1);
 }
 
-rodvila.generate(cli.sources, cli.outputFile, cli.outputFormat);
+rodvila.generate(options.sources, options.outputFile, options.outputFormat);
