@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "docs": "jsdoc -r index.js -d ./docs/"
+    "docs": "jsdoc -r index.js ./lib/ -d ./docs/"
   },
   "repository": {
     "type": "git",
