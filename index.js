@@ -7,7 +7,7 @@
 var parseCli = module.exports.parseCli = function (argv) {
   let version = require('./package.json').version;
   let Command = require('commander').Command;
-  
+
   let command = new Command()
     .version(version)
     .arguments('<SOURCE> [OTHERS...]')
@@ -23,10 +23,49 @@ var parseCli = module.exports.parseCli = function (argv) {
  * @param {Command} command - The command line object.
  */
 var generate = module.exports.generate = function (command) {
-  const markdown = require('markdown-it');
+  const fs = require('fs');
+  const marked = require('marked');
   const officegen = require('officegen');
 
-  console.log('Sources:', command.args.join(', '));
-  console.log('Output file:', command.outputFile);
-  console.log('Output format:', command.outputFormat);
+  const readFile = filename => new Promise((resolve, reject) => fs.readFile(filename, 'utf-8', (err, data) => (err) ? reject(err) : resolve(data)));
+
+  const options = {
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    sanitize: true,
+    smartLists: true,
+    smartypants: false
+  };
+  const lexer = new marked.Lexer(options);
+
+  let doc = officegen(command.outputFormat);
+  let out = fs.createWriteStream(command.outputFile);
+
+  readFile(command.args[0])
+    .then(content => lexer.lex(content))
+    .catch(err => console.error(err))
+    .then(tokens => tokens.forEach(elem => {
+      switch (elem.type) {
+        case 'heading':
+          {
+            let pObj = doc.createP();
+            pObj.addText(elem.text, {
+              bold: true,
+              font_face: 'Arial',
+              font_size: 40
+            });
+          }
+          break;
+        default:
+          {
+            let pObj = doc.createP();
+            pObj.addText(elem.text);
+          }
+          break;
+      }
+    }))
+    .then(response => doc.generate(out));
+
 };
