@@ -1,46 +1,32 @@
 'use strict';
-
 /**
  * Parse command line arguments
  * @param {string[]} argv - An array of command line arguments.
- * @returns {Object} config - The configuration object.
- * @returns {string[]} config.sources - The source files.
- * @returns {string} config.outputFile - The output file.
- * @returns {string} config.outputFormat - The output file format (docx|pptx).
+ * @returns {Command} - The parsed command line object.
  */
-var parse = module.exports.parseCli = function (argv) {
-  const version = require('./package.json').version;
-  const commander = require('commander');
-  var sources;
-
-  commander
+var parseCli = module.exports.parseCli = function (argv) {
+  let version = require('./package.json').version;
+  let Command = require('commander').Command;
+  
+  let command = new Command()
     .version(version)
-    .arguments('<source> [others...]')
-    .option('-o, --output-file [file]', 'Set output file', /^.*\.(docx|pptx)$/i, 'stdout')
-    .option('-f, --output-format [type]', 'Set output file format [docx|pptx]', /^(docx|pptx)$/i, 'docx')
-    .action((source, others) => sources = [source, ...others])
+    .arguments('<SOURCE> [OTHERS...]')
+    .option('-o, --output-file [FILE]', 'Set output file', /^.*\.(docx|pptx)$/i, 'stdout')
+    .option('-f, --output-format [TYPE]', 'Set output file format [docx|pptx]', 'docx')
     .parse(argv);
 
-  return {
-    sources: sources,
-    outputFile: commander.outputFile,
-    outputFormat: commander.outputFormat,
-    parser: commander
-  };
+  return command;
 };
 
 /**
  * Generate documents
- * @param {Object} config - The configuration object.
- * @param {string[]} config.sources - The source files.
- * @param {string} config.outputFile - The output file.
- * @param {string} config.outputFormat - The output file format (docx|pptx).
+ * @param {Command} command - The command line object.
  */
-var generate = module.exports.generate = function (config) {
+var generate = module.exports.generate = function (command) {
   const markdown = require('markdown-it');
   const officegen = require('officegen');
 
-  console.log('Sources:', config.sources.join(', '));
-  console.log('Output file:', config.outputFile);
-  console.log('Output format:', config.outputFormat);
+  console.log('Sources:', command.args.join(', '));
+  console.log('Output file:', command.outputFile);
+  console.log('Output format:', command.outputFormat);
 };
