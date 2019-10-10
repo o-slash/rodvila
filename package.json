@@ -6,7 +6,7 @@
   "bin": "bin/cli.js",
   "dependencies": {
     "commander": "^2.11.0",
-    "markdown-it": "^8.3.1",
+    "markdown-it": "^10.0.0",
     "officegen": "^0.4.5",
     "snyk": "^1.88.0"
   },
