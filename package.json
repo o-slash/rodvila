@@ -7,7 +7,7 @@
   "dependencies": {
     "commander": "^2.11.0",
     "markdown-it": "^8.3.1",
-    "officegen": "^0.4.5",
+    "officegen": "^0.6.5",
     "snyk": "^1.88.0"
   },
   "devDependencies": {
